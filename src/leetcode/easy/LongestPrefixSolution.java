@@ -1,6 +1,6 @@
 package leetcode.easy.longestCommonPrefix;
 
-public class Solution {
+public class LongestPrefixSolution {
 
 	static void main( String[] args ) {
 
