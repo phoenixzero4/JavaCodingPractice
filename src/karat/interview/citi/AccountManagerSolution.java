@@ -34,14 +34,12 @@ Requirements:
 To assist you in testing this new function, we have provided the
 testGetAverageTransactionAmountByAccount test.
 */
-
 import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 enum TransactionType {
 	DEPOSIT,
 	WITHDRAWAL
@@ -74,6 +72,12 @@ class Transaction {
 		this.type = type;
 		this.amount = amount;
 		this.timestampSec = timestampSec;
+
+	}
+
+	TransactionType getType() {
+
+		return type;
 	}
 }
 
@@ -103,7 +107,6 @@ class AccountManager {
 				}
 				// Problem 1.2 exists because there is no condition to check for transaction type WITHDRAWAL
 				// Adding this else if statement fixes that issue
-
 				else if ( tx.type == TransactionType.WITHDRAWAL ) {
 					balance -= tx.amount;
 				}
@@ -112,64 +115,73 @@ class AccountManager {
 		return balance;
 	}
 
-	// Solution for problem 2 although you are asked to use an absolute value as there is no
-	// change (fractions of a dollar) in the transactions
 	public Map<Integer, Double> getAverageTransactionAmountByAccount() {
 
-		HashMap<Integer, Double> result = new HashMap<>();
-		HashMap<Integer, Integer> numberOfTrans = new HashMap<>();
-		double sum = 0, average = 0;
-		double currentBalance;
-		int totalTransactions = 0;
-
+		Map<Integer, Double> sumByAccount = new HashMap<>();
+		Map<Integer, Integer> countByAccount = new HashMap<>();
 		for ( Transaction t : transactions ) {
-
 			int id = t.accountId;
-
-			// putting the number of transactions in a map for each account
-			if ( numberOfTrans.containsKey(id) ) {
-				numberOfTrans.put(id, numberOfTrans.get(id) + 1);
-				currentBalance = t.amount;
-				totalTransactions++;
-				average = currentBalance / totalTransactions;
-
-				System.out.printf("Account: %d has balance of %f and %f transactions so far", id, currentBalance, average);
-			} else {
-				numberOfTrans.put(id, 1);
-			}
-
-			result.put(id, average);
+			double amount = t.amount;
+			sumByAccount.put(id, sumByAccount.getOrDefault(id, 0.0) + amount);
+			countByAccount.put(id, countByAccount.getOrDefault(id, 0) + 1);
 		}
+		Map<Integer, Double> result = new HashMap<>();
+		for ( int id : sumByAccount.keySet() ) {
+			double sum = sumByAccount.get(id);
+			int count = countByAccount.get(id);
+			result.put(id, sum / count);
+		}
+		result.forEach(( key, value ) -> System.err.printf("Account: %d has an average transaction of $%.2f\n", key,
+				value));
 		return result;
 	}
-//				if ( t.accountId == entry.getKey() ) {
-//					System.err.println("id: " + t.accountId + " key: " + entry.getKey());
+//	public Map<Integer, Double> getAverageTransactionAmountByAccount() {
 //
-//					if ( numberOfTrans.containsKey(t.accountId) ) {
-//						numberOfTrans.put(t.accountId, numberOfTrans.get(t.accountId) + 1);
-//					} else {
-//						numberOfTrans.put(t.accountId, 1);
-//					}
-//					if ( t.type == TransactionType.DEPOSIT ) {
-//						System.out.printf("adding %f to account %d\n", t.amount, t.accountId);
-//						sum += t.amount;
-//						System.out.println("current sum: " + sum);
-//					} else if ( t.type == TransactionType.WITHDRAWAL ) {
-//						System.out.printf("subtracting %f from account %d\n", t.amount, t.accountId);
-//						sum -= t.amount;
-//						System.out.println("current sum: " + sum);
-//					}
+//		HashMap<Integer, Double> result = new HashMap<>();
+//		HashMap<Integer, Integer> numberOfTrans = new HashMap<>();
+//		double sum = 0, average = 0;
+//		double currentBalance = 0;
+//		int totalTransactions = 0;
+//		int id;
+//		for ( Transaction t : transactions ) {
+//
+//			id = t.accountId;
+//			TransactionType type = t.type;
+//			double amount = t.amount;
+//
+//			// putting the number of transactions in a map for each account
+//			if ( numberOfTrans.containsKey(id) ) {
+//				totalTransactions = numberOfTrans.get(id);
+//				numberOfTrans.put(id, numberOfTrans.get(id) + 1);
+//
+//				if ( type == TransactionType.DEPOSIT ) {
+//					currentBalance = result.get(id);
+//					currentBalance += amount;
+//					average = currentBalance / totalTransactions;
+//
+//					System.out.printf("Account: %d has balance of %.2f and %d transactions so far\n", id, currentBalance,
+//							totalTransactions);
+//				} else if ( type == TransactionType.WITHDRAWAL ) {
+//					currentBalance = result.get(id);
+//					currentBalance -= amount;
+//					average = currentBalance / totalTransactions;
+//					System.out.printf("Account: %d has balance of %.2f and %d transactions so far\n", id, currentBalance,
+//							totalTransactions);
 //				}
-//				System.err.println("AccountId: " + t.accountId + " Balance: " + sum);
-//				average = sum / numberOfTrans.get(t.accountId);
-//				result.put(t.accountId, average);
+//
+//			} else {
+//				numberOfTrans.put(id, 1);
+//				System.out.printf("Account: %d has balance of %.2f and %d transactions so far\n", id, currentBalance,
+//						totalTransactions);
+//
 //			}
 //
+//			result.put(id, average);
 //		}
-//
-//		System.out.println(average);
+//		return result;
+//	}
 
-	public static class Solution {
+	public static class CitiSolution {
 
 		static Map<Integer, Double> numberOfTrans = new HashMap<>();
 
@@ -192,15 +204,12 @@ class AccountManager {
 			System.out.println("Running testGetBalance_basic");
 			AccountManager mgr = new AccountManager();
 			mgr.addAccount(new Account(1, "Alice"));
-
 			mgr.addTransaction(new Transaction(101, 1, TransactionType.DEPOSIT, 100.0, 1000));
 			mgr.addTransaction(new Transaction(102, 1, TransactionType.WITHDRAWAL, 30.0, 1010));
 			mgr.addTransaction(new Transaction(103, 1, TransactionType.WITHDRAWAL, 20.0, 1020));
 			mgr.addTransaction(new Transaction(104, 1, TransactionType.DEPOSIT, 10.0, 1030));
-
 			// Expected balance: 100 - 30 - 20 + 10 = 60
 			assertAlmost(60.0, mgr.getBalance(1));
-
 			mgr.addTransaction(new Transaction(105, 1, TransactionType.WITHDRAWAL, 70.0, 1045));
 			assertAlmost(-10.0, mgr.getBalance(1));
 		}
@@ -211,13 +220,11 @@ class AccountManager {
 			AccountManager mgr = new AccountManager();
 			mgr.addAccount(new Account(1, "Alice"));
 			mgr.addAccount(new Account(2, "Bob"));
-
 			mgr.addTransaction(new Transaction(201, 1, TransactionType.DEPOSIT, 50.0, 2000));
 			mgr.addTransaction(new Transaction(202, 2, TransactionType.DEPOSIT, 80.0, 2005));
 			mgr.addTransaction(new Transaction(203, 1, TransactionType.WITHDRAWAL, 10.0, 2010));
 			mgr.addTransaction(new Transaction(204, 2, TransactionType.WITHDRAWAL, 5.5, 2015));
 			mgr.addTransaction(new Transaction(205, 2, TransactionType.WITHDRAWAL, 14.5, 2020));
-
 			// Account 1: 50 - 10 = 40
 			assertAlmost(40.0, mgr.getBalance(1));
 			// Account 2: 80 - 5.5 - 14.5 = 60
@@ -228,27 +235,21 @@ class AccountManager {
 
 			System.out.println("Running testGetAverageTransactionAmountByAccount");
 			AccountManager mgr = new AccountManager();
-
 			mgr.addAccount(new Account(51, "Alice"));
 			mgr.addAccount(new Account(72, "Bob"));
 			mgr.addAccount(new Account(93, "Charlie")); // no transactions
-
 			// Account 51: 100, 30, 20, 10 => avg = 160/4 = 40
 			mgr.addTransaction(new Transaction(101, 51, TransactionType.DEPOSIT, 100.0, 1000));
 			mgr.addTransaction(new Transaction(102, 51, TransactionType.WITHDRAWAL, 30.0, 1010));
 			mgr.addTransaction(new Transaction(103, 51, TransactionType.WITHDRAWAL, 20.0, 1020));
 			mgr.addTransaction(new Transaction(104, 51, TransactionType.DEPOSIT, 10.0, 1030));
-
 			// Account 72: 80, 5.5, 14.5 => avg = 100/3 = 33.333...
 			mgr.addTransaction(new Transaction(201, 72, TransactionType.DEPOSIT, 80.0, 2005));
 			mgr.addTransaction(new Transaction(202, 72, TransactionType.WITHDRAWAL, 5.5, 2015));
 			mgr.addTransaction(new Transaction(203, 72, TransactionType.WITHDRAWAL, 14.5, 2020));
-
 			Map<Integer, Double> avg = mgr.getAverageTransactionAmountByAccount();
-
 			assertAlmost(40.0, avg.get(51));
 			assertAlmost(33.3333, avg.get(72));
-
 			// Account 93 has no transactions -> should not be present
 			Assert.assertFalse(avg.containsKey(93));
 		}
