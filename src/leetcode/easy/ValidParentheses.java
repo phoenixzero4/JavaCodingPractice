@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.easy;
 
 import java.util.Stack;
 
@@ -15,20 +15,20 @@ public class ValidParentheses {
 			return false;
 		} else {
 			l = new Stack<>();
-			String[] array = s.split("");
+			String[] array = s.split("" );
 			String paren = "";
 
 			for ( String str : array ) {
-				if ( str.equals("(") || str.equals("[") || str.equals("{") ) {
+				if ( str.equals("(" ) || str.equals("[" ) || str.equals("{" ) ) {
 					l.push(str);
 					//	} else if ( str.equals(")") || str.equals("]") || str.equals("}") ) {
 				} else if ( !l.isEmpty() ) {
 					paren = l.pop();
-					if ( str.equals(")") && !paren.equals("(") ) {
+					if ( str.equals(")" ) && !paren.equals("(" ) ) {
 						return false;
-					} else if ( str.equals("]") && !paren.equals("[") ) {
+					} else if ( str.equals("]" ) && !paren.equals("[" ) ) {
 						return false;
-					} else if ( str.equals("}") && !paren.equals("{") ) {
+					} else if ( str.equals("}" ) && !paren.equals("{" ) ) {
 						return false;
 					}
 				} else {

@@ -1,4 +1,4 @@
-package leetcode.easy.longestCommonPrefix;
+package leetcode.easy;
 
 public class LongestPrefixSolution {
 
@@ -60,7 +60,7 @@ public class LongestPrefixSolution {
 		if ( longestPrefix.isEmpty() ) {
 			//		System.out.print("There is no common prefix in the array ");
 			for ( String s : strings ) {
-				System.out.print(s + " ");
+				System.out.print(s + " " );
 			}
 		}
 		return longestPrefix;

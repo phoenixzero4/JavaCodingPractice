@@ -1,4 +1,4 @@
-package practice.myServer;
+package practice.classes;
 
 public abstract class Bird implements Animal {
 

@@ -1,4 +1,4 @@
-package practice.myServer;
+package practice.classes;
 
 public class Robin extends Bird {
 

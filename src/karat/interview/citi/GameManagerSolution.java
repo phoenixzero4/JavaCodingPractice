@@ -1,4 +1,4 @@
-package karat.interview.citi.wipro;
+package karat.interview.citi;
 
 /*
 We are building the back-end for an online gaming platform. The system tracks
@@ -49,225 +49,254 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-enum Outcome {
-	WIN, LOSS, DRAW
-}
-
-class Player {
-
-	public int playerId;
-	public String username;
-
-	public Player( int playerId, String username ) {
-
-		this.playerId = playerId;
-		this.username = username;
-	}
-}
-
-class MatchResult {
-
-	public int playerId;
-	public int opponentId;
-	public Outcome outcome;
-	public int score;
-	public int timestamp;
-
-	public MatchResult( int playerId, int opponentId, Outcome outcome, int score, int timestamp ) {
-
-		this.playerId = playerId;
-		this.opponentId = opponentId;
-		this.outcome = outcome;
-		this.score = score;
-		this.timestamp = timestamp;
-	}
-}
-
-class PlayerStats {
-
-	public int totalMatches;
-	public int wins;
-	public double winRate;
-
-	public PlayerStats( int totalMatches, int wins, double winRate ) {
-
-		this.totalMatches = totalMatches;
-		this.wins = wins;
-		this.winRate = winRate;
-	}
-}
-
-class GameManager {
-
-	public static Map<Integer, Player> players;
-	public static List<MatchResult> matchResults;
-
-	public GameManager() {
-
-		players = new HashMap<>();
-		matchResults = new ArrayList<>();
+enum Outcome
+	{
+		WIN, LOSS, DRAW
 	}
 
-	// If playerId exists in the players Map, add result to matchResults List
-	public void addMatchResult( MatchResult result ) {
+class Player
+	{
 
-		if ( players.containsKey(result.playerId) ) {
-			matchResults.add(result);
-		}
-	}
+		public int playerId;
+		public String username;
 
-	// Sum scores by outcome and return the avg score by same (WIN, LOSS, DRAW)
-	public Map<Outcome, Double> getAverageScoreByOutcome( int playerId ) {
+		public Player( int playerId, String username )
+			{
 
-		Map<Outcome, Integer> totalScore = new HashMap<>();
-		Map<Outcome, Integer> count = new HashMap<>();
-
-		for ( MatchResult m : matchResults ) {
-			if ( m.playerId == playerId ) {
-				totalScore.merge(m.outcome, m.score, Integer::sum);
-				count.merge(m.outcome, 1, Integer::sum);
+				this.playerId = playerId;
+				this.username = username;
 			}
-		}
-
-		Map<Outcome, Double> avg = new HashMap<>();
-		for ( Outcome o : totalScore.keySet() ) {
-			avg.put(o, totalScore.get(o) / (double) count.get(o));
-		}
-
-		return avg;
 	}
 
+class MatchResult
+	{
 
-	public void addPlayer( Player player ) {
+		public int playerId;
+		public int opponentId;
+		public Outcome outcome;
+		public int score;
+		public int timestamp;
 
-		players.put(player.playerId, player);
-	}
+		public MatchResult( int playerId, int opponentId, Outcome outcome, int score, int timestamp )
+			{
 
-	public PlayerStats getPlayerStatistics( int playerId ) {
-
-		List<MatchResult> playerMatches = new ArrayList<>();
-		for ( MatchResult m : matchResults ) {
-			if ( m.playerId == playerId ) {
-				playerMatches.add(m);
+				this.playerId = playerId;
+				this.opponentId = opponentId;
+				this.outcome = outcome;
+				this.score = score;
+				this.timestamp = timestamp;
 			}
-		}
+	}
 
-		int totalMatches = 0;
-		for ( MatchResult m : playerMatches ) {
-			if ( m.outcome == Outcome.WIN || m.outcome == Outcome.LOSS || m.outcome == Outcome.DRAW ) {
-				totalMatches++;
+class PlayerStats
+	{
+
+		public int totalMatches;
+		public int wins;
+		public double winRate;
+
+		public PlayerStats( int totalMatches, int wins, double winRate )
+			{
+
+				this.totalMatches = totalMatches;
+				this.wins = wins;
+				this.winRate = winRate;
 			}
-		}
+	}
 
-		int wins = 0;
-		for ( MatchResult m : playerMatches ) {
-			if ( m.outcome == Outcome.WIN ) {
-				wins++;
+class GameManager
+	{
+
+		public static Map<Integer, Player> players;
+		public static List<MatchResult> matchResults;
+
+		public GameManager()
+			{
+
+				players = new HashMap<>();
+				matchResults = new ArrayList<>();
 			}
-		}
 
-		double winRate;
-		if ( totalMatches > 0 ) {
-			winRate = (double) wins / totalMatches;
-		} else {
-			winRate = 0.0;
-		}
+		// If playerId exists in the players Map, add result to matchResults List
+		public void addMatchResult( MatchResult result )
+			{
 
-		return new PlayerStats(totalMatches, wins, winRate);
-	}
-}
+				if ( players.containsKey(result.playerId) )
+					{
+						matchResults.add(result);
+					}
+			}
 
-public class Solution {
+		// Sum scores by outcome and return the avg score by same (WIN, LOSS, DRAW)
+		public Map<Outcome, Double> getAverageScoreByOutcome( int playerId )
+			{
 
-	static void main( String[] args ) {
+				Map<Outcome, Integer> totalScore = new HashMap<>();
+				Map<Outcome, Integer> count = new HashMap<>();
 
-		testGetPlayerStatistics();
-		testAddMatchResult();
-		testGetAverageScoreByOutcome();
-		System.out.println("All Tests Passed!" );
-	}
+				for ( MatchResult m : matchResults )
+					{
+						if ( m.playerId == playerId )
+							{
+								totalScore.merge(m.outcome, m.score, Integer::sum);
+								count.merge(m.outcome, 1, Integer::sum);
+							}
+					}
 
-	public static void testGetPlayerStatistics() {
+				Map<Outcome, Double> avg = new HashMap<>();
+				for ( Outcome o : totalScore.keySet() )
+					{
+						avg.put(o, totalScore.get(o) / (double) count.get(o));
+					}
 
-		System.out.println("Running testGetPlayerStatistics" );
-		GameManager gm = new GameManager();
-		gm.addPlayer(new Player(1, "player1" ));
-		gm.addPlayer(new Player(2, "player2" ));
-
-		GameManager.matchResults.add(new MatchResult(1, 2, Outcome.WIN, 80, 1000));
-		GameManager.matchResults.add(new MatchResult(1, 2, Outcome.LOSS, 50, 2000));
-		GameManager.matchResults.add(new MatchResult(1, 2, Outcome.DRAW, 60, 3000));
-		GameManager.matchResults.add(new MatchResult(1, 2, Outcome.WIN, 90, 4000));
-
-		PlayerStats stats = gm.getPlayerStatistics(1);
-		assert stats.totalMatches == 4 :
-				"totalMatches should be 4, was " + stats.totalMatches;
-		assert stats.wins == 2 :
-				"wins should be 2, was " + stats.wins;
-		assert Math.abs(stats.winRate - 0.5) < 1e-4 :
-				"winRate should be 0.5, was " + stats.winRate;
-
-		GameManager.matchResults.add(new MatchResult(2, 1, Outcome.DRAW, 60, 1000));
-		GameManager.matchResults.add(new MatchResult(2, 1, Outcome.DRAW, 60, 2000));
-
-		PlayerStats stats2 = gm.getPlayerStatistics(2);
-		assert stats2.totalMatches == 2 :
-				"totalMatches should be 2, was " + stats2.totalMatches;
-		assert stats2.wins == 0 :
-				"wins should be 0, was " + stats2.wins;
-		assert Math.abs(stats2.winRate - 0.0) < 1e-4 :
-				"winRate should be 0.0, was " + stats2.winRate;
-	}
-
-	static void testAddMatchResult() {
-
-		System.out.println("Running testAddMatchResult" );
-		GameManager gm = new GameManager();
-		gm.addPlayer(new Player(1, "player1" ));
-		gm.addPlayer(new Player(2, "player2" ));
-
-		gm.addMatchResult(new MatchResult(1, 2, Outcome.WIN, 80, 1000));
-		gm.addMatchResult(new MatchResult(2, 1, Outcome.LOSS, 50, 1000));
+				return avg;
+			}
 
 
-		// unknown player ignored
-		gm.addMatchResult(new MatchResult(99, 1, Outcome.WIN, 100, 2000));
+		public void addPlayer( Player player )
+			{
 
-		assert GameManager.matchResults.size() == 2 : "Expected 2 match results";
-	}
+				players.put(player.playerId, player);
+			}
 
-	static void testGetAverageScoreByOutcome() {
+		public PlayerStats getPlayerStatistics( int playerId )
+			{
 
-		System.out.println("Running testGetAverageScoreByOutcome" );
-		GameManager gm = new GameManager();
-		gm.addPlayer(new Player(1, "player1" ));
-		gm.addPlayer(new Player(2, "player2" ));
+				List<MatchResult> playerMatches = new ArrayList<>();
+				for ( MatchResult m : matchResults )
+					{
+						if ( m.playerId == playerId )
+							{
+								playerMatches.add(m);
+							}
+					}
 
-		// match 1 - player1 wins
-		gm.addMatchResult(new MatchResult(1, 2, Outcome.WIN, 80, 1000));
-		gm.addMatchResult(new MatchResult(2, 1, Outcome.LOSS, 50, 1000));
+				int totalMatches = 0;
+				for ( MatchResult m : playerMatches )
+					{
+						if ( m.outcome == Outcome.WIN || m.outcome == Outcome.LOSS || m.outcome == Outcome.DRAW )
+							{
+								totalMatches++;
+							}
+					}
 
-		// match 2 - player1 wins again
-		gm.addMatchResult(new MatchResult(1, 2, Outcome.WIN, 91, 2000));
-		gm.addMatchResult(new MatchResult(2, 1, Outcome.LOSS, 60, 2000));
+				int wins = 0;
+				for ( MatchResult m : playerMatches )
+					{
+						if ( m.outcome == Outcome.WIN )
+							{
+								wins++;
+							}
+					}
 
-		// match 3 - draw
-		gm.addMatchResult(new MatchResult(1, 2, Outcome.DRAW, 70, 3000));
-		gm.addMatchResult(new MatchResult(2, 1, Outcome.DRAW, 70, 3000));
+				double winRate;
+				if ( totalMatches > 0 )
+					{
+						winRate = (double) wins / totalMatches;
+					} else
+					{
+						winRate = 0.0;
+					}
 
-		Map<Outcome, Double> avg1 = gm.getAverageScoreByOutcome(1);
-		assert Math.abs(85.5 - avg1.get(Outcome.WIN)) < 1e-4 : "Expected 85.5 for WIN";   // (80+91)/2
-		assert Math.abs(70.0 - avg1.get(Outcome.DRAW)) < 1e-4 : "Expected 70.0 for DRAW";
-		assert !avg1.containsKey(Outcome.LOSS) : "player1 has no losses";                   // player1 has no losses
-
-		Map<Outcome, Double> avg2 = gm.getAverageScoreByOutcome(2);
-		assert Math.abs(55.0 - avg2.get(Outcome.LOSS)) < 1e-4 : "Expected 55.0 for LOSS";  // (50+60)/2
-		assert Math.abs(70.0 - avg2.get(Outcome.DRAW)) < 1e-4 : "Expected 70.0 for DRAW";
-		assert !avg2.containsKey(Outcome.WIN) : "player2 has no wins";                      // player2 has no wins
-
-		// player with no match results
-		gm.addPlayer(new Player(3, "player3" ));
-		assert gm.getAverageScoreByOutcome(3).isEmpty() : "Expected empty map for player3";
+				return new PlayerStats(totalMatches, wins, winRate);
+			}
 	}
 
-}
+public class GameManagerSolution
+	{
+
+		static void main( String[] args )
+			{
+
+				testGetPlayerStatistics();
+				testAddMatchResult();
+				testGetAverageScoreByOutcome();
+				System.out.println("All Tests Passed!");
+			}
+
+		public static void testGetPlayerStatistics()
+			{
+
+				System.out.println("Running testGetPlayerStatistics");
+				GameManager gm = new GameManager();
+				gm.addPlayer(new Player(1, "player1"));
+				gm.addPlayer(new Player(2, "player2"));
+
+				GameManager.matchResults.add(new MatchResult(1, 2, Outcome.WIN, 80, 1000));
+				GameManager.matchResults.add(new MatchResult(1, 2, Outcome.LOSS, 50, 2000));
+				GameManager.matchResults.add(new MatchResult(1, 2, Outcome.DRAW, 60, 3000));
+				GameManager.matchResults.add(new MatchResult(1, 2, Outcome.WIN, 90, 4000));
+
+				PlayerStats stats = gm.getPlayerStatistics(1);
+				assert stats.totalMatches == 4 : "totalMatches should be 4, was " + stats.totalMatches;
+				assert stats.wins == 2 : "wins should be 2, was " + stats.wins;
+				assert Math.abs(stats.winRate - 0.5) < 1e-4 :
+						"winRate should be 0.5, was " + stats.winRate;
+
+				GameManager.matchResults.add(new MatchResult(2, 1, Outcome.DRAW, 60, 1000));
+				GameManager.matchResults.add(new MatchResult(2, 1, Outcome.DRAW, 60, 2000));
+
+				PlayerStats stats2 = gm.getPlayerStatistics(2);
+				assert stats2.totalMatches == 2 : "totalMatches should be 2, was " + stats2.totalMatches;
+				assert stats2.wins == 0 : "wins should be 0, was " + stats2.wins;
+				assert Math.abs(stats2.winRate - 0.0) < 1e-4 :
+						"winRate should be 0.0, was " + stats2.winRate;
+			}
+
+		static void testAddMatchResult()
+			{
+
+				System.out.println("Running testAddMatchResult");
+				GameManager gm = new GameManager();
+				gm.addPlayer(new Player(1, "player1"));
+				gm.addPlayer(new Player(2, "player2"));
+
+				gm.addMatchResult(new MatchResult(1, 2, Outcome.WIN, 80, 1000));
+				gm.addMatchResult(new MatchResult(2, 1, Outcome.LOSS, 50, 1000));
+
+
+				// unknown player ignored
+				gm.addMatchResult(new MatchResult(99, 1, Outcome.WIN, 100, 2000));
+
+				assert GameManager.matchResults.size() == 2 : "Expected 2 match results";
+			}
+
+		static void testGetAverageScoreByOutcome()
+			{
+
+				System.out.println("Running testGetAverageScoreByOutcome");
+				GameManager gm = new GameManager();
+				gm.addPlayer(new Player(1, "player1"));
+				gm.addPlayer(new Player(2, "player2"));
+
+				// match 1 - player1 wins
+				gm.addMatchResult(new MatchResult(1, 2, Outcome.WIN, 80, 1000));
+				gm.addMatchResult(new MatchResult(2, 1, Outcome.LOSS, 50, 1000));
+
+				// match 2 - player1 wins again
+				gm.addMatchResult(new MatchResult(1, 2, Outcome.WIN, 91, 2000));
+				gm.addMatchResult(new MatchResult(2, 1, Outcome.LOSS, 60, 2000));
+
+				// match 3 - draw
+				gm.addMatchResult(new MatchResult(1, 2, Outcome.DRAW, 70, 3000));
+				gm.addMatchResult(new MatchResult(2, 1, Outcome.DRAW, 70, 3000));
+
+				Map<Outcome, Double> avg1 = gm.getAverageScoreByOutcome(1);
+				assert Math.abs(85.5 - avg1.get(Outcome.WIN)) < 1e-4 : "Expected 85.5 for WIN";   //
+				// (80+91)/2
+				assert Math.abs(70.0 - avg1.get(Outcome.DRAW)) < 1e-4 : "Expected 70.0 for DRAW";
+				assert !avg1.containsKey(Outcome.LOSS) : "player1 has no losses";                   //
+				// player1 has no losses
+
+				Map<Outcome, Double> avg2 = gm.getAverageScoreByOutcome(2);
+				assert Math.abs(55.0 - avg2.get(Outcome.LOSS)) < 1e-4 : "Expected 55.0 for LOSS";  //
+				// (50+60)/2
+				assert Math.abs(70.0 - avg2.get(Outcome.DRAW)) < 1e-4 : "Expected 70.0 for DRAW";
+				assert !avg2.containsKey(Outcome.WIN) : "player2 has no wins";                      //
+				// player2 has no wins
+
+				// player with no match results
+				gm.addPlayer(new Player(3, "player3"));
+				assert gm.getAverageScoreByOutcome(3).isEmpty() : "Expected empty map for player3";
+			}
+	}

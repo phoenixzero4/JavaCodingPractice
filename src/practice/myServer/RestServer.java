@@ -25,6 +25,9 @@ public class RestServer {
 
         System.out.println("Enter the employee name to search for");
 
+        System.out.println();
+
+
         filename = "employees.txt";
         file = new File(filename);
         in = new Scanner(file);

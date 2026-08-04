@@ -1,6 +1,6 @@
-package leetcode.easy.romanToInteger;
+package leetcode.easy;
 
-public class Solution {
+public class RomanToInteger {
 
 	public static int romanToInt( String s ) {
 
