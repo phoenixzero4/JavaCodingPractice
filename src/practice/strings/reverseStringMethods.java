@@ -5,10 +5,19 @@ package practice.strings;
 //		Input:  "automation"
 //		Output: "noitamotua"
 
-public class reverseString
+public class reverseStringMethods
 	{
 
-		public static String reverse( String s )
+		public static String reverseWithBuilder( String s )
+			{
+
+				StringBuilder sb = new StringBuilder(s);
+				sb = sb.reverse();
+
+				return sb.toString();
+			}
+
+		public static String reverseWithArray( String s )
 			{
 
 				String[] array = s.split("");
@@ -22,12 +31,5 @@ public class reverseString
 					}
 
 				return String.join("", result);
-			}
-
-		static void main( String[] args )
-			{
-
-				String s = "automation";
-				System.err.println(reverse(s));
 			}
 	}
