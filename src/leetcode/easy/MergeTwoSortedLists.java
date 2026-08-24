@@ -10,7 +10,6 @@ nodes of the first two lists.
 
 Return the head of the merged linked list.
 */
-  
 
   public ListNode mergeTwoListRecursive( ListNode one, ListNode two ) {
 
@@ -47,7 +46,6 @@ Return the head of the merged linked list.
       }
       tail = tail.next;
     }
-
     tail.next = ( one != null ) ? one : two;
 
     return dummy.next;
@@ -58,7 +56,6 @@ Return the head of the merged linked list.
     ListNode list1 = new ListNode( 1, new ListNode( 2, new ListNode( 4 ) ) );
     ListNode list2 = new ListNode( 1, new ListNode( 3, new ListNode( 4 ) ) );
     ListNode result = mergeTwoLists( list1, list2 );
-
 
     ListNode one = new ListNode( 1, new ListNode( 4, new ListNode( 8 ) ) );
     ListNode two = new ListNode( 2, new ListNode( 4, new ListNode( 7 ) ) );
@@ -83,9 +80,7 @@ Return the head of the merged linked list.
     int val;
     ListNode next;
 
-    ListNode() {
-
-    }
+    ListNode() {}
 
     ListNode( int val ) {
 

@@ -5,31 +5,35 @@ package practice.strings;
 //		Input:  "automation"
 //		Output: "noitamotua"
 
-public class reverseStringMethods
-	{
+public class reverseStringMethods {
 
-		public static String reverseWithBuilder( String s )
-			{
+  static void main() {
 
-				StringBuilder sb = new StringBuilder(s);
-				sb = sb.reverse();
+    String a = "automation";
+    System.out.println( a );
+    System.err.println( reverseWithBuilder( a ) );
+    System.err.println( reverseWithArray( a ) );
+  }
 
-				return sb.toString();
-			}
+  public static String reverseWithBuilder( String s ) {
 
-		public static String reverseWithArray( String s )
-			{
+    StringBuilder sb = new StringBuilder( s );
+    sb = sb.reverse();
 
-				String[] array = s.split("");
-				String[] result = new String[s.length()];
+    return sb.toString();
+  }
 
-				int j = 0;
-				for ( int i = array.length - 1; i >= 0; i-- )
-					{
-						String c = array[i];
-						result[j++] = c;
-					}
+  public static String reverseWithArray( String s ) {
 
-				return String.join("", result);
-			}
-	}
+    String[] array = s.split( "" );
+    String[] result = new String[s.length()];
+
+    int j = 0;
+    for ( int i = array.length - 1; i >= 0; i-- ) {
+      String c = array[i];
+      result[j++] = c;
+    }
+
+    return String.join( "", result );
+  }
+}
