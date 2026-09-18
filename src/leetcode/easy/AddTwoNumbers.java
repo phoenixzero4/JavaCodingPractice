@@ -1,4 +1,3 @@
 package leetcode.easy;
 
-public class AddTwoNumbers {
-}
+public class AddTwoNumbers {}
