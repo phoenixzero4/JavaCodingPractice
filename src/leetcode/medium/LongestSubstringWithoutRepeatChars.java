@@ -1,68 +1,35 @@
 package leetcode.medium;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class LongestSubstringWithoutRepeatChars {
 
   static void main( String[] args ) {
 
-    String input = "abcabcbb";
-    int output = lengthOfLongestSubstring( input );
-    System.out.println( "Result " + output );
+    String in = "bbbb";
+    int result = lengthOfLongestSubstring( in );
+    System.out.println( result );
 
-    // Implement JUNIT Tests
-
-    input = "pwwkew";
-    output = lengthOfLongestSubstring( input );
-    System.out.println( output );
   }
 
-  // TODO fix this method
-
-  // XXX does not work for "eea"
-  // TODO create a note todo marker
   public static int lengthOfLongestSubstring( String s ) {
 
-    String sub = s;
-    HashMap<Character, Integer> map = new HashMap<>();
-    String maxSoFar = "";
-    int max = 0;
+    Map<Character, Integer> map = new HashMap<>();
 
-    for ( int i = 0; i < s.length(); i++ ) {
+    int left = 0, max = 0;
 
-      Character c = sub.charAt( i );
-      if ( !map.containsKey( c ) ) {
+    for ( int right = 0; right < s.length(); right++ ) {
+      char current = s.charAt( right );
 
-        System.out.println( "Map does NOT contain " + c );
-        maxSoFar += "" + c;
-
-        System.out.println( "MaxSofar: " + maxSoFar );
-        map.put( c, 1 );
-
-        System.out.println( map );
-        if ( maxSoFar.length() > max ) {
-          max = maxSoFar.length();
-        }
-
-      }
-      else {
-
-        if ( maxSoFar.length() >= max ) {
-
-          max = maxSoFar.length();
-          System.out.println( "MaxSoFar: " + maxSoFar );
-        }
-        map.clear();
-        maxSoFar = "";
-        System.out.println( "Clearing map" );
-        System.out.println( map );
-        System.out.println( "MaxSoFar: " + maxSoFar );
-
+      if ( map.containsKey( current ) ) {
+        left = Math.max( left, map.get( current ) + 1 );
       }
 
+      map.put( current, right );
+
+      max = Math.max( max, right - left + 1 );
     }
-
     return max;
-  } //end of for i loop
-
+  }
 } // end of class
