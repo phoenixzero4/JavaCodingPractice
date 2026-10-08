@@ -1,46 +1,39 @@
 package practice.strings;
 
-import java.io.File;
-
 public class StringMethods {
 
-  public static void getFileMeta( File file ) {
+  static void main( String[] args ) {
 
-    if ( file.exists() ) {
+    String a = "abba";
+    String b = "abbad";
+    String racecar = "racecar";
+    String panama = "panama";
+    String plan = "A man, a plan, a canal,  Panama";
 
-      // Get file name
-      String filename = file.getName();
+    System.out.println( a + " is a palindrome " + isPalindrome( a ) );
+    System.out.println( b + " is a palindrome " + isPalindrome( b ) );
+    System.out.println( racecar + " is a palindrome " + isPalindrome( racecar ) );
+    System.out.println( panama + " is a palindrome " + isPalindrome( panama ) );
+    System.out.println( plan + " is a palindrome " + isPalindrome( plan ) );
 
-      // Get absolute path
-      String path = file.getAbsolutePath();
+  }
 
-      // Executable
-      String executable = file.canExecute() ? "executable" : "not executable";
+  public static boolean isPalindrome( String s ) {
 
-      // Writeable?
-      String writeable = file.canWrite() ? "writable" : "not writable";
+    s = s.replaceAll( "[^a-zA-Z]", "" );
+    s = s.trim()
+         .toLowerCase();
+    System.err.println( s );
 
-      // Readable?
-      String readable = file.canRead() ? "readable" : "not readable";
+    char[] array = s.toCharArray();
 
-      // Size
-      String size = "bytes";
-      if ( ( ( int ) file.length() ) >= 1024 ) {
-        size = "megabytes";
+    for ( int i = 0, j = array.length - 1; i <= j; i++, j-- ) {
+
+      if ( array[i] != array[j] ) {
+        return false;
       }
-
-      byte A = 'A';
-      byte Z = 'Z';
-      byte a = 'a';
-      byte z = 'z';
-
-      System.out.println( "A: " + A + " Z: " + Z + " a: " + a + " z: " + z );
-      System.out.println( ( Z - A ) + " " + ( z - a ) );
-      System.out.println( A + 32 );
-
-      int filesize = file.length() >= 1024 ? ( int ) file.length() / 1024 : ( int ) file.length();
-
-      System.out.printf( "%s is %s, %s, %s and has a size of %d %s", filename, executable, readable, writeable, filesize, size );
     }
+
+    return true;
   }
 }
