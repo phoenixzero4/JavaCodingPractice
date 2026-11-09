@@ -1,5 +1,9 @@
+<!--suppress SpellCheckingInspection -->
+
 # JavaCodingPractice
+
 ## Newest repository for all Java practice
+
 - Leetcode
 
 - HackerRank

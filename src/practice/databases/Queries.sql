@@ -1,3 +1,7 @@
+# noinspection SpellCheckingInspectionForFile
+
+# noinspection SpellCheckingInspectionForFile
+
 USE PHOENIX_DATA;
 
 INSERT INTO USERS ( USERS.FIRSTNAME, USERS.LASTNAME )
@@ -7,6 +11,7 @@ VALUES            ( 'Phoenix',       'Paul'         ),
                   ( 'Alexandra',     'Paul'         ),
                   ( 'Brodi',         'Paul'         );
 
+# noinspection SpellCheckingInspection
 INSERT INTO USERDATA ( USERID, PASSWORD,   CREATED      )
 VALUES               ( 1,      'password', CURRENT_DATE ),
                      ( 2,      'letmein',  CURRENT_DATE ),

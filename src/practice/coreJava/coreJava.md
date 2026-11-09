@@ -43,7 +43,7 @@
     - **Response**: Java is not considered a pure object-oriented language because it supports primitive data types
       which are not objects. Java also supports static methods and static variables. Static members belong to the class
       not an instance of an object. Java also allows procedural programming and does not treat functions as first-class
-      objects. Lambdas were introduced in Java 8 but they are not first class functions.
+      objects. Lambdas were introduced in Java 8, but they are not first class functions.
 
 9. **What is the purpose of the `final` keyword?**
 
@@ -137,7 +137,7 @@
     }
     
     public class Main {
-        public static void main(String[] args) {
+        static void main( String[] args ) {
             MyThread t1 = new MyThread();
             t1.start();
     
@@ -145,7 +145,8 @@
             t2.start();
         }
     }
-    ```
+
+```
 
 23. **Explain the concept of synchronization in the context of threads.**
 
@@ -594,7 +595,7 @@
 54. **How does the Strategy pattern work?**
 
     - **Response**: The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them
-      interchangeable. It allows the algorithm to vary independently from clients that use it.
+      interchangeable. It allows the algorithm to vary independently of clients that use it.
 
     ```java
     public interface Strategy {
@@ -760,7 +761,7 @@
         - **Template Method pattern**: Defines the skeleton of an algorithm in a method, deferring some steps to
           subclasses. It lets subclasses redefine certain steps of an algorithm without changing its structure.
         - **Strategy pattern**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
-          The algorithm can vary independently from clients that use it.
+          The algorithm can vary independently of the clients that use it.
 
 59. **Explain the Builder pattern.**
 
@@ -828,7 +829,7 @@
     
     public class ProxyImage implements Image {
         private RealImage realImage;
-        private String fileName;
+        private final String fileName;
     
         public ProxyImage(String fileName) {
             this.fileName = fileName;
@@ -841,11 +842,11 @@
             realImage.display();
         }
     }
-    ```
+```
 
 ## Spring Framework
 
-61. **What is the Spring Framework, and what problem does it solve?**
+1. **What is the Spring Framework, and what problem does it solve?**
 
     - **Response**: The Spring Framework is a comprehensive framework for enterprise Java development. It solves
       problems related to enterprise application development by providing infrastructure support for developing Java
@@ -853,122 +854,123 @@
       enterprise services non-invasively to POJOs. This capability applies to the Java SE programming model and to full
       and partial Java EE.
 
-62. **Explain the concept of Dependency Injection in Spring.**
+2. **Explain the concept of Dependency Injection in Spring.**
 
     - **Response**: Dependency Injection (DI) is a design pattern used to implement IoC (Inversion of Control), allowing
-      the creation of dependent objects outside of a class and providing those objects to a class in various ways.
+      the creation of dependent objects outside a class and providing those objects to a class in various ways.
       Spring uses DI to manage the dependencies between objects. This promotes loose coupling and enhances testability
       and maintenance.
 
-    ```java
-    public class TextEditor {
-        private SpellChecker spellChecker;
+   ```java
+   public class TextEditor {
+       private final SpellChecker spellChecker;
     
-        // Constructor-based DI
-        public TextEditor(SpellChecker spellChecker) {
-            this.spellChecker = spellChecker;
-        }
+       // Constructor-based DI
+       public TextEditor(SpellChecker spellChecker) {
+           this.spellChecker = spellChecker;
+       }
     
-        public void spellCheck() {
-            spellChecker.checkSpelling();
-        }
-    }
-    ```
+       public void spellCheck() {
+           spellChecker.checkSpelling();
+       }
+   }
 
-63. **What is the difference between `@Component`, `@Service`, `@Repository`, and `@Controller` in Spring?**
+```
 
-    - **Response**:
-        - `@Component`: A generic stereotype for any Spring-managed component.
-        - `@Service`: A specialization of `@Component` for service layer beans.
-        - `@Repository`: A specialization of `@Component` for DAO (Data Access Object) beans, providing additional
-          features for exception translation.
-        - `@Controller`: A specialization of `@Component` for Spring MVC controllers, handling web requests and
-          returning views.
+1. **What is the difference between `@Component`, `@Service`, `@Repository`, and `@Controller` in Spring?**
 
-64. **What is Spring Boot, and what are its advantages?**
+   - **Response**:
+       - `@Component`: A generic stereotype for any Spring-managed component.
+       - `@Service`: A specialization of `@Component` for service layer beans.
+       - `@Repository`: A specialization of `@Component` for DAO (Data Access Object) beans, providing additional
+         features for exception translation.
+       - `@Controller`: A specialization of `@Component` for Spring MVC controllers, handling web requests and
+         returning views.
 
-    - **Response**: Spring Boot is a project built on top of the Spring Framework that provides a simplified, rapid, and
-      efficient way to develop Spring applications. It offers out-of-the-box configurations, embedded servers, and
-      production-ready features such as metrics, health checks, and externalized configuration.
+2. **What is Spring Boot, and what are its advantages?**
 
-65. **How do you create a Spring Boot application?**
+   - **Response**: Spring Boot is a project built on top of the Spring Framework that provides a simplified, rapid, and
+     efficient way to develop Spring applications. It offers out-of-the-box configurations, embedded servers, and
+     production-ready features such as metrics, health checks, and externalized configuration.
 
-    - **Response**:
-        1. **Using Spring Initializr**: Go to [start.spring.io](https://start.spring.io/), select dependencies, and
-           generate the project.
-        2. **Maven/Gradle**: Add Spring Boot dependencies in the build file and create a main class annotated with
-           `@SpringBootApplication`.
+3. **How do you create a Spring Boot application?**
 
-    ```java
-    @SpringBootApplication
-    public class Application {
-        public static void main(String[] args) {
-            SpringApplication.run(Application.class, args);
-        }
-    }
-    ```
+   - **Response**:
+       1. **Using Spring Initializr**: Go to [start.spring.io](https://start.spring.io/), select dependencies, and
+          generate the project.
+       2. **Maven/Gradle**: Add Spring Boot dependencies in the build file and create a main class annotated with
+          `@SpringBootApplication`.
 
-66. **What is Spring Data JPA?**
+   ```java
+   @SpringBootApplication
+   public class Application {
+       static void main( String[] args ) {
+           SpringApplication.run(Application.class, args);
+       }
+   }
+```
+
+1. **What is Spring Data JPA?**
 
     - **Response**: Spring Data JPA is part of the larger Spring Data family, making it easier to implement JPA-based
       repositories. It provides a repository abstraction layer that reduces boilerplate code and integrates seamlessly
       with Spring.
 
-67. **Explain the concept of Aspect-Oriented Programming (AOP) in Spring.**
+2. **Explain the concept of Aspect-Oriented Programming (AOP) in Spring.**
 
     - **Response**: Aspect-Oriented Programming (AOP) is a programming paradigm that aims to increase modularity by
       allowing the separation of cross-cutting concerns. In Spring, AOP enables defining methods called "aspects" that
       can be applied across various point-cuts, such as logging, transaction management, and security.
 
-    ```java
-    @Aspect
-    public class LoggingAspect {
-        @Before("execution(* com.example.service.*.*(..))")
-        public void logBefore(JoinPoint joinPoint) {
-            System.out.println("Method called: " + joinPoint.getSignature().getName());
-        }
-    }
-    ```
+   ```java
+   @Aspect
+   public class LoggingAspect {
+       @Before("execution(* com.example.service.*.*(..))")
+       public void logBefore(JoinPoint joinPoint) {
+           System.out.println("Method called: " + joinPoint.getSignature().getName());
+       }
+   }
+   ```
 
-68. **What are Spring Beans, and how are they managed?**
+3. **What are Spring Beans, and how are they managed?**
 
     - **Response**: Spring Beans are objects that are instantiated, assembled, and managed by the Spring IoC container.
       They are defined in the Spring configuration file (XML, Java annotations, or Java-based configuration) and are
       managed by the container which handles their lifecycle.
 
-69. **What is the Spring IoC container?**
+4. **What is the Spring IoC container?**
 
     - **Response**: The Spring IoC (Inversion of Control) container is the core of the Spring Framework. It is
       responsible for managing the lifecycle and configuration of application objects, enforcing dependency injection,
       and providing the necessary infrastructure to manage Spring Beans.
 
-70. **Explain the role of `@Autowired` annotation in Spring.**
+5. **Explain the role of `@Autowired` annotation in Spring.**
 
     - **Response**: The `@Autowired` annotation in Spring is used for automatic dependency injection. It can be applied
       to constructors, methods, and fields, allowing Spring to resolve and inject collaborating beans into the target
       bean.
 
-    ```java
-    @Component
-    public class TextEditor {
-        private SpellChecker spellChecker;
+   ```java
+   @Component
+   public class TextEditor {
+       private SpellChecker spellChecker;
     
-        @Autowired
-        public void setSpellChecker(SpellChecker spellChecker) {
-            this.spellChecker = spellChecker;
-        }
-    }
-    ```
+       @Autowired
+       public void setSpellChecker(SpellChecker spellChecker) {
+           this.spellChecker = spellChecker;
+       }
+   }
+   ```
 
-    ## Hibernate ORM
+   ## Hibernate ORM
 
-71. **What is Hibernate ORM, and what problem does it solve?**
+6. **What is Hibernate ORM, and what problem does it solve?**
 
     - **Response**: Hibernate ORM (Object-Relational Mapping) is a framework for mapping an object-oriented domain model
       to a relational database. It solves the problem of impedance mismatch by providing a layer that allows developers
       to work with objects in Java while interacting with the underlying database in an abstract way.
 
-72. **What are the core interfaces of Hibernate?**
+7. **What are the core interfaces of Hibernate?**
 
     - **Response**:
         - `Session`: A single-threaded, short-lived object used to perform CRUD operations.
@@ -977,20 +979,20 @@
         - `Query`: An object-oriented representation of a Hibernate query.
         - `Criteria`: An interface for creating runtime queries through a simplified API.
 
-73. **Explain the concept of lazy loading in Hibernate.**
+8. **Explain the concept of lazy loading in Hibernate.**
 
     - **Response**: Lazy loading is a design pattern in Hibernate that delays the loading of associated objects or
       collections until they are actually needed, improving performance and reducing memory usage.
 
-    ```java
-    @Entity
-    public class Author {
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
-        private Set<Book> books;
-    }
-    ```
+   ```java
+   @Entity
+   public class Author {
+       @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+       private Set<Book> books;
+   }
+   ```
 
-74. **What is the difference between `get()` and `load()` methods in Hibernate?**
+9. **What is the difference between `get()` and `load()` methods in Hibernate?**
 
     - **Response**:
         - `get()`: Returns the entity immediately, fetching it from the database if it is not found in the session
@@ -998,7 +1000,7 @@
         - `load()`: Returns a proxy and only hits the database when a method is invoked on the returned object. It
           throws an `ObjectNotFoundException` if the entity does not exist.
 
-75. **How do you configure a Hibernate session factory?**
+10. **How do you configure a Hibernate session factory?**
 
     - **Response**:
 
@@ -1025,7 +1027,7 @@
           SessionFactory sessionFactory = configuration.buildSessionFactory();
           ```
 
-76. **What is HQL (Hibernate Query Language)?**
+11. **What is HQL (Hibernate Query Language)?**
 
     - **Response**: HQL is an object-oriented query language similar to SQL but operates on Hibernate's entity objects
       rather than directly on database tables. It allows for database-agnostic queries that can be translated to SQL by
@@ -1038,14 +1040,14 @@
     List results = query.list();
     ```
 
-77. **Explain the concept of caching in Hibernate.**
+12. **Explain the concept of caching in Hibernate.**
 
     - **Response**: Caching in Hibernate improves performance by reducing the number of database hits. It includes:
         - **First-level cache**: Built-in and mandatory, associated with the session.
         - **Second-level cache**: Optional and configurable, shared across sessions and based on the `SessionFactory`.
         - **Query cache**: Caches the results of queries, enhancing performance for frequently executed queries.
 
-78. **What are the different types of associations in Hibernate?**
+13. **What are the different types of associations in Hibernate?**
 
     - **Response**:
         - **One-to-One**: A single entity is associated with another single entity.
@@ -1062,7 +1064,7 @@
     }
     ```
 
-79. **How do you handle transactions in Hibernate?**
+14. **How do you handle transactions in Hibernate?**
 
     - **Response**:
 
@@ -1085,7 +1087,7 @@
           }
           ```
 
-80. **What are the advantages of using JPA annotations with Hibernate?**
+15. **What are the advantages of using JPA annotations with Hibernate?**
 
     - **Response**:
         - **Standardization**: JPA annotations provide a standardized way of defining ORM mappings, making the codebase
@@ -1108,52 +1110,52 @@
 
 ## Java Memory and Annotations
 
-81. **What is the Java Memory Model?**
+1. **What is the Java Memory Model?**
 
     - **Response**: The Java Memory Model (JMM) defines how threads interact through memory and what behaviors are
       allowed in concurrent execution. It ensures visibility and ordering of variables among threads, and specifies how
       and when changes made by one thread are visible to others.
 
-82. **How does garbage collection work in Java?**
+2. **How does garbage collection work in Java?**
 
     - **Response**: Garbage collection in Java is a process of automatically reclaiming memory occupied by objects that
       are no longer reachable from the application. The JVM uses algorithms like generational collection, where objects
       are divided into young and old generations. The garbage collector (GC) periodically cleans up objects that are no
       longer in use, freeing memory.
 
-83. **What is a memory leak, and how would you prevent it in Java?**
+3. **What is a memory leak, and how would you prevent it in Java?**
 
     - **Response**: A memory leak occurs when an application unintentionally retains references to objects, preventing
       them from being garbage collected. To prevent memory leaks, use weak references for caches, ensure proper closure
       of resources like streams and connections, and avoid retaining unnecessary references in collections.
 
-84. **Explain the concept of "Escape Analysis" in Java.**
+4. **Explain the concept of "Escape Analysis" in Java.**
 
     - **Response**: Escape Analysis is a JVM optimization technique used to determine whether an object’s reference
       escapes the method or thread in which it was created. If the analysis determines that the object does not escape,
       it can be optimized, for example, by allocating it on the stack instead of the heap, which can reduce garbage
       collection overhead.
 
-85. **What are annotations in Java?**
+5. **What are annotations in Java?**
 
     - **Response**: Annotations are metadata added to Java code that provide additional information to the compiler and
       runtime about the program elements (e.g., classes, methods). They are used for various purposes, including code
       analysis, generation, and runtime processing.
 
-86. **Can you create your own annotations in Java?**
+6. **Can you create your own annotations in Java?**
 
     - **Response**: Yes, you can create your own annotations using the `@interface` keyword. Annotations can be defined
       with optional elements, and they can be retained at runtime or compile-time using the `@Retention` annotation.
 
-    ```java
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.METHOD)
-    public @interface MyCustomAnnotation {
-        String value();
-    }
-    ```
+   ```java
+   @Retention(RetentionPolicy.RUNTIME)
+   @Target(ElementType.METHOD)
+   public @interface MyCustomAnnotation {
+       String value();
+   }
+   ```
 
-87. **What built-in annotations are provided by Java?**
+7. **What built-in annotations are provided by Java?**
 
     - **Response**: Java provides several built-in annotations, including:
         - `@Override`: Indicates that a method is overriding a method in a superclass.
@@ -1161,7 +1163,7 @@
         - `@SuppressWarnings`: Suppresses compiler warnings.
         - `@FunctionalInterface`: Indicates that an interface is a functional interface.
 
-88. **How are annotations used in frameworks such as Spring or Hibernate?**
+8. **How are annotations used in frameworks such as Spring or Hibernate?**
 
     - **Response**: In frameworks like Spring and Hibernate, annotations are used to configure and manage components.
       For example:
@@ -1170,20 +1172,20 @@
         - **Hibernate**: Annotations like `@Entity`, `@Table`, and `@Column` are used to map Java classes to database
           tables.
 
-89. **What is JDBC, and how do you connect to a database in Java?**
+9. **What is JDBC, and how do you connect to a database in Java?**
 
     - **Response**: JDBC (Java Database Connectivity) is an API for connecting and executing queries on a database from
       Java applications. To connect to a database, you need to load the database driver, create a connection using
       `DriverManager`, and use `Connection` to interact with the database.
 
-    ```java
-    String url = "jdbc:mysql://localhost:3306/mydb";
-    String username = "root";
-    String password = "password";
-    Connection connection = DriverManager.getConnection(url, username, password);
-    ```
+   ```java
+   String url = "jdbc:mysql://localhost:3306/mydb";
+   String username = "root";
+   String password = "password";
+   Connection connection = DriverManager.getConnection(url, username, password);
+   ```
 
-90. **Explain the role of the `DriverManager` class in JDBC.**
+10. **Explain the role of the `DriverManager` class in JDBC.**
 
     - **Response**: `DriverManager` is a class in JDBC that manages a list of database drivers. It is responsible for
       establishing a connection to the database by selecting an appropriate driver from the registered drivers. It
@@ -1191,26 +1193,26 @@
 
 ## Unit Testing and Java Concepts
 
-91. **What are unit testing and how is it implemented in Java?**
+1. **What are unit testing and how is it implemented in Java?**
 
     - **Response**: Unit testing involves testing individual components of a program in isolation to ensure they work as
       intended. In Java, it is typically implemented using testing frameworks such as JUnit or TestNG. Tests are written
       in classes annotated with `@Test`, and assertions are used to verify expected outcomes.
 
-    ```java
-    import org.junit.Test;
-    import static org.junit.Assert.assertEquals;
+   ```java
+   import org.junit.Test;
+   import static org.junit.Assert.assertEquals;
     
-    public class MyTest {
-        @Test
-        public void testAddition() {
-            int result = 2 + 3;
-            assertEquals(5, result);
-        }
-    }
-    ```
+   public class MyTest {
+       @Test
+       public void testAddition() {
+           int result = 2 + 3;
+           assertEquals(5, result);
+       }
+   }
+   ```
 
-92. **Can you explain the difference between JUnit and TestNG?**
+2. **Can you explain the difference between JUnit and TestNG?**
 
     - **Response**: JUnit and TestNG are both testing frameworks, but they have some differences:
         - **JUnit**: Focuses on simplicity and has annotations like `@Test`, `@Before`, `@After`, etc. JUnit 5 supports
@@ -1219,38 +1221,38 @@
           more extensive configuration options. It supports annotations like `@Test`, `@BeforeMethod`, `@AfterMethod`,
           etc.
 
-93. **What is mock testing, and which frameworks would you use for it in Java?**
+3. **What is mock testing, and which frameworks would you use for it in Java?**
 
     - **Response**: Mock testing involves creating mock objects to simulate the behavior of real objects in unit tests,
       allowing isolation of the component being tested. Frameworks like Mockito and EasyMock are commonly used for mock
       testing in Java.
 
-    ```java
-    import static org.mockito.Mockito.*;
+   ```java
+   import static org.mockito.Mockito.*;
     
-    public class MyTest {
-        @Test
-        public void testService() {
-            MyService mockService = mock(MyService.class);
-            when(mockService.getData()).thenReturn("mock data");
-            // test code here
-        }
-    }
-    ```
+   public class MyTest {
+       @Test
+       public void testService() {
+           MyService mockService = mock(MyService.class);
+           when(mockService.getData()).thenReturn("mock data");
+           // test code here
+       }
+   }
+   ```
 
-94. **How does the heap work in Java?**
+4. **How does the heap work in Java?**
 
     - **Response**: The heap is a runtime data area in the JVM where objects are allocated and managed. It is divided
       into the young generation (Eden space and survivor spaces) and the old generation. Garbage collection is performed
       to reclaim memory from objects that are no longer in use.
 
-95. **What are reference types in Java?**
+5. **What are reference types in Java?**
 
     - **Response**: Reference types refer to variables that store references to objects rather than the actual data.
       Examples include classes, interfaces, and arrays. They differ from primitive types (e.g., `int`, `float`) that
       store actual values.
 
-96. **What is the difference between an error and an exception in Java?**
+6. **What is the difference between an error and an exception in Java?**
 
     - **Response**:
         - **Error**: Represents serious problems that a reasonable application should not try to catch, such as
@@ -1258,7 +1260,7 @@
         - **Exception**: Represents conditions that a program should handle. Exceptions are further divided into checked
           exceptions (e.g., `IOException`) and unchecked exceptions (e.g., `NullPointerException`).
 
-97. **What is the difference between checked and unchecked exceptions?**
+7. **What is the difference between checked and unchecked exceptions?**
 
     - **Response**:
         - **Checked Exceptions**: Must be either caught or declared in the method signature using `throws`. Examples
@@ -1266,21 +1268,25 @@
         - **Unchecked Exceptions**: Do not need to be explicitly handled or declared. They are subclasses of
           `RuntimeException`, such as `ArithmeticException` and `NullPointerException`.
 
-98. **What is serialization in Java, and when would you use it?**
+8. **What is serialization in Java, and when would you use it?**
 
     - **Response**: Serialization is the process of converting an object into a byte stream to save it to a file or
       transmit it over a network. It is used when you need to persist object state or send objects between different
       parts of a system.
 
-    ```java
-    import java.io.Serializable;
-    
+   ```java
+   import java.io.Serial;
+
+import java.io.Serializable;
+
     public class Person implements Serializable {
-        private static final long serialVersionUID = 1L;
+        @Serial
+    private static final long serialVersionUID = 1L;
         private String name;
         private int age;
     }
-    ```
+
+```
 
 99. **Explain the structure of the JVM and how it executes code.**
 
@@ -1295,8 +1301,8 @@
 
 100. **How does the Just-In-Time (JIT) compiler work?**
 
-    - **Response**: The JIT compiler is a part of the JVM that improves performance by compiling bytecode into native
-      machine code at runtime. It optimizes frequently executed code paths (hot spots) and reduces the overhead of
-      interpretation, leading to faster execution. The compiled code is cached for future use.
+- **Response**: The JIT compiler is a part of the JVM that improves performance by compiling bytecode into native
+  machine code at runtime. It optimizes frequently executed code paths (hot spots) and reduces the overhead of
+  interpretation, leading to faster execution. The compiled code is cached for future use.
 
 
